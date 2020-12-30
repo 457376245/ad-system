@@ -1,0 +1,31 @@
+
+server:
+  port: 7001
+
+spring:
+  application:
+    name: ad-search
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/imooc_ad_data?serverTimezone=UTC
+    username: root
+    password: root
+    tomcat:
+      max-active: 4
+      min-idle: 2
+      initial-size: 2
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka8001.com:8001/eureka/,http://eureka8000.com:8000/eureka/,http://eureka8002.com:8002/eureka/
+feign:
+  hystrix:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+

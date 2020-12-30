@@ -1,0 +1,25 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ad_service_routh
+          uri: http://localhost:7000
+          predicates:
+            - Path=/service/**
+          filter:
+            - RewritePath=/service/(?<segment>/?.*), /ad-plan/$\{segment}
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka8001.com:8001/eureka/,http://eureka8000.com:8000/eureka/,http://eureka8002.com:8002/eureka/
+  instance:
+    hostname: cloud-gateway-service

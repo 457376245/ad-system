@@ -1,0 +1,12 @@
+eureka:
+  instance:
+    hostname: eureka8001.com
+    prefer-ip-address: false
+  client:
+    service-url:
+      defaultZone: http://eureka8000.com:8000/eureka/,http://eureka8002.com:8002/eureka/
+server:
+  port: 8001
+spring:
+  application:
+    name: ad-eureka
