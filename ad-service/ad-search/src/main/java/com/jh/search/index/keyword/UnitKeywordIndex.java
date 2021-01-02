@@ -7,10 +7,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -33,6 +30,7 @@ public class UnitKeywordIndex implements IndexAware<String, Set<Long>> {
     public Set<Long> get(String key) {
 
         if (StringUtils.isEmpty(key)) {
+            //返回空且不能添加元素的set集合
             return Collections.emptySet();
         }
 
@@ -49,17 +47,18 @@ public class UnitKeywordIndex implements IndexAware<String, Set<Long>> {
 
         log.info("UnitKeywordIndex, before add: {}", unitKeywordMap);
 
-        Set<Long> unitIdSet = CommonUtils.getorCreate(
+       /* Set<Long> unitIdSet = CommonUtils.getorCreate(
                 key, keywordUnitMap,
                 ConcurrentSkipListSet::new
-        );
+        );*/
+        log.info("before add value:{}",unitKeywordMap.get(key));
+        Set<Long> unitIdSet = keywordUnitMap.computeIfAbsent(key, k -> new HashSet<Long>() {
+        });
         unitIdSet.addAll(value);
+        log.info("after add value:{}",unitKeywordMap.get(key));
 
         for (Long unitId : value) {
-            Set<String> keywordSet = CommonUtils.getorCreate(
-                    unitId, unitKeywordMap,
-                    ConcurrentSkipListSet::new
-            );
+            Set<String> keywordSet = unitKeywordMap.computeIfAbsent(unitId,k-> new ConcurrentSkipListSet());
             keywordSet.add(key);
         }
 

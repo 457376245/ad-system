@@ -1,8 +1,6 @@
 package com.jh.search.index;
 
-/**
- * Created by Qinyi.
- */
+
 public interface IndexAware<K, V> {
 
     V get(K key);

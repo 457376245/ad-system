@@ -12,9 +12,8 @@ spring:
         - id: ad_service_routh
           uri: http://localhost:7000
           predicates:
-            - Path=/service/**
-          filter:
-            - RewritePath=/service/(?<segment>/?.*), /ad-plan/$\{segment}
+          - Path=/ad-plan/**
+
 
 
 eureka:
